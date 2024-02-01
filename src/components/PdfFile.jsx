@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PDFFile = ({ pieChartData, lineGraphData, tableData }) => {
+const PdfFile = ({ pieChartData, lineGraphData, tableData }) => {
   const pageColors = ["#f6d186", "#f67280", "#c06c84"];
 
   const pages = [
@@ -79,6 +79,7 @@ const PDFFile = ({ pieChartData, lineGraphData, tableData }) => {
     <>
       <Document>
         <Page>
+            <Text>header</Text>
           <View>{pieChartData && <Image src={pieChartData} />}</View>
         </Page>
         <Page>
@@ -115,4 +116,4 @@ const PDFFile = ({ pieChartData, lineGraphData, tableData }) => {
   );
 };
 
-export default PDFFile;
+export default PdfFile;
