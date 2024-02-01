@@ -1,66 +1,66 @@
 /* StudentInfo.css */
 .student-info-container {
-    display: flex;
-    align-items: start;
-    justify-content: center;
-    flex-direction: column;
-    max-width: 600px;
-    height: 100vh;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    animation: fadeIn 0.5s ease-in-out;
-    /* background-image: url('../../public/studentImg.png'); */
-    background-color: bisque;
-    background-size: cover;
-    color: #333;
-  }
-  
-  .property-container {
-    margin-bottom: 10px;
-  }
-  
-  .label {
-    font-weight: bold;
-    margin-right: 5px;
-  }
-  
-  .grades-container {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .grade {
-    margin-right: 10px;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
-  .homepage-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    background-color: beige;
-    overflow: auto;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 600px;
+  height: 100vh;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  animation: fadeIn 0.5s ease-in-out;
+  /* background-image: url('../../public/studentImg.png'); */
+  background-color: bisque;
+  background-size: cover;
+  color: #333;
+}
 
-    .children {
-        max-height: 500px;
-        max-width: 500px;        
-    }
+.property-container {
+  margin-bottom: 10px;
+}
 
-    .homepage-header {
-        display: flex;
-        gap: 100px;
-        margin-top: 20px;
-    }
+.label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.grades-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.grade {
+  margin-right: 10px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
+  to {
+    opacity: 1;
+  }
+}
+
+.homepage-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  background-color: beige;
+  overflow: auto;
+
+  .children {
+    max-height: 500px;
+    max-width: 500px;
+  }
+
+  .homepage-header {
+    display: flex;
+    gap: 100px;
+    margin-top: 20px;
+  }
+}

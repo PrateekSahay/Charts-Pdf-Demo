@@ -8,11 +8,10 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
-import { useNavigate} from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
 
 const StudentTable = ({ studentData, tableRef, page, setPage }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [orderBy, setOrderBy] = useState("name");
   const [order, setOrder] = useState("asc");
@@ -77,9 +76,11 @@ const StudentTable = ({ studentData, tableRef, page, setPage }) => {
   };
 
   const onNameClick = (student) => {
-    navigate(`/student/${student.name}`, {state: student});
-  }
+    navigate(`/student/${student.name}`, { state: student });
+  };
 
+
+  // TODO: Use Map for better rendering
   return (
     <>
       <TableContainer component={Paper} ref={tableRef}>
@@ -147,7 +148,12 @@ const StudentTable = ({ studentData, tableRef, page, setPage }) => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((student) => (
                 <TableRow key={student.name}>
-                  <TableCell style={{ cursor: "pointer" }} onClick={() => onNameClick(student)}>{student.name}</TableCell>
+                  <TableCell
+                    style={{ cursor: "pointer" }}
+                    onClick={() => onNameClick(student)}
+                  >
+                    {student.name}
+                  </TableCell>
                   <TableCell>{student.age}</TableCell>
                   <TableCell>{student.date_of_birth}</TableCell>
                   <TableCell>{student.city}</TableCell>

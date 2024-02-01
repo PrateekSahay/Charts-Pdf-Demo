@@ -39,18 +39,21 @@ const HomePage = ({ studentData }) => {
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const isFormDataUpdated = useRef(false);
-  console.log({formData});
+  console.log({ formData });
 
-  const updateFormData = useCallback((data) => {
-    setFormData(curr => {
+  const updateFormData = useCallback(
+    (data) => {
+      setFormData((curr) => {
         return {
-            ...curr,
-            ...data
-        }
-    });
+          ...curr,
+          ...data,
+        };
+      });
 
-    isFormDataUpdated.current = true;
-  }, [isFormDataUpdated.current, setFormData]);
+      isFormDataUpdated.current = true;
+    },
+    [isFormDataUpdated.current, setFormData]
+  );
 
   const handleExportToPDF = async () => {
     let arr = [];
@@ -67,9 +70,15 @@ const HomePage = ({ studentData }) => {
   };
 
   const generatePdfDocument = async (documentData, fileName) => {
-    const pieChartData = formData?.isPieChartSelected ? await saveChartAsImage(pieChartRef.current) : null;
-    const lineGraphData = formData?.isLineGraphSelected ? await saveChartAsImage(lineGraphRef.current) : null;
-    const tableData = formData?.isTableSelected ? await handleExportToPDF() : null;
+    const pieChartData = formData?.isPieChartSelected
+      ? await saveChartAsImage(pieChartRef.current)
+      : null;
+    const lineGraphData = formData?.isLineGraphSelected
+      ? await saveChartAsImage(lineGraphRef.current)
+      : null;
+    const tableData = formData?.isTableSelected
+      ? await handleExportToPDF()
+      : null;
 
     const blob = await pdf(
       <PdfFile
@@ -83,40 +92,55 @@ const HomePage = ({ studentData }) => {
   };
 
   const onExtractPdfClick = () => {
-    setIsDialogOpen(prev => !prev);
-  }
+    setIsDialogOpen((prev) => !prev);
+  };
 
   useEffect(() => {
     if (isFormDataUpdated.current) {
-        generatePdfDocument();
-        isFormDataUpdated.current = false;
+      generatePdfDocument();
+      isFormDataUpdated.current = false;
     }
-  }, [isFormDataUpdated.current])
+  }, [isFormDataUpdated.current]);
 
-  // add loader
+  //TODO: Add loader
 
   return (
     <section className="homepage-container">
-        <div className="homepage-header">
-            <h1>Student Information Dashboard</h1>
-            <Button variant="contained" color="primary" onClick={onExtractPdfClick} aria-label="Genrate PDF">
-              Generate PDF
-            </Button>
+      <div className="homepage-header">
+        <h1>Student Information Dashboard</h1>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={onExtractPdfClick}
+          aria-label="Genrate PDF"
+        >
+          Generate PDF
+        </Button>
       </div>
-      <PieChart className="children"  studentData={studentData} pieChartRef={pieChartRef} />
-      <LineGraph className="children" studentData={studentData} lineGraphRef={lineGraphRef} />
+      <PieChart
+        className="children"
+        studentData={studentData}
+        pieChartRef={pieChartRef}
+      />
+      <LineGraph
+        className="children"
+        studentData={studentData}
+        lineGraphRef={lineGraphRef}
+      />
       <StudentTable
         studentData={studentData}
         tableRef={tableRef}
         page={page}
         setPage={setPage}
-      />      
-      {isDialogOpen && <ChartForm 
-      formData={formData}
-      updateFormData={updateFormData}
-      isDialogOpen={isDialogOpen}
-      setIsDialogOpen={setIsDialogOpen}      
-      />}
+      />
+      {isDialogOpen && (
+        <ChartForm
+          formData={formData}
+          updateFormData={updateFormData}
+          isDialogOpen={isDialogOpen}
+          setIsDialogOpen={setIsDialogOpen}
+        />
+      )}
     </section>
   );
 };

@@ -15,7 +15,6 @@ import studentData from "../static/data";
 import { renderToStaticMarkup } from "react-dom/server";
 import { toPng } from "html-to-image";
 
-
 const styles = StyleSheet.create({
   body: {
     paddingTop: 35,
@@ -29,16 +28,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "grey",
   },
-  frontPage: {    
+  frontPage: {
     textAlign: "center",
     color: "grey",
     marginTop: 100,
     fontSize: 50,
-  }
+  },
 });
 
 const PdfFile = ({ pieChartData, lineGraphData, tableData, notes }) => {
-
   return (
     <>
       <Document>
@@ -47,13 +45,6 @@ const PdfFile = ({ pieChartData, lineGraphData, tableData, notes }) => {
             <Text style={styles.frontPage}>Student</Text>
             <Text style={styles.frontPage}>Information</Text>
             <Text style={styles.frontPage}>Dashboard</Text>
-            {/* <Image
-              src={{
-                uri: "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg",
-                method: "GET",
-                headers: { "Cache-Control": "no-cache" },
-              }}
-            /> */}
           </View>
         </Page>
         {pieChartData && (

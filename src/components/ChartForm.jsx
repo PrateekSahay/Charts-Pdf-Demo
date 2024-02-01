@@ -1,26 +1,30 @@
 // Import necessary modules from React and Material-UI
-import React, { useState } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import TextField from '@mui/material/TextField';
+import React, { useState } from "react";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import TextField from "@mui/material/TextField";
 
 const ChartForm = ({
-    formData,
-    updateFormData,
-    isDialogOpen,
-    setIsDialogOpen,
+  formData,
+  updateFormData,
+  isDialogOpen,
+  setIsDialogOpen,
 }) => {
-  
-  const [isPieChartSelected, setPieChartSelected] = useState(formData.isPieChartSelected);
-  const [isLineGraphSelected, setLineGraphSelected] = useState(formData.isLineGraphSelected);
-  const [isTableSelected, setTableSelected] = useState(formData.isTableSelected);
+  const [isPieChartSelected, setPieChartSelected] = useState(
+    formData.isPieChartSelected
+  );
+  const [isLineGraphSelected, setLineGraphSelected] = useState(
+    formData.isLineGraphSelected
+  );
+  const [isTableSelected, setTableSelected] = useState(
+    formData.isTableSelected
+  );
   const [notes, setNotes] = useState(formData.notes);
-  
 
   const handleClose = () => {
     setIsDialogOpen(false);
@@ -28,21 +32,20 @@ const ChartForm = ({
 
   // Function to handle form submission
   const handleSubmit = (e) => {
-
     e.preventDefault();
     updateFormData({
-        isPieChartSelected,
-        isLineGraphSelected,
-        isTableSelected,
-        notes,
-    })
+      isPieChartSelected,
+      isLineGraphSelected,
+      isTableSelected,
+      notes,
+    });
 
     // Close the dialog after submission
     handleClose();
   };
 
   return (
-    <div>      
+    <div>
       <Dialog open={isDialogOpen} onClose={handleClose}>
         <DialogTitle>PDF Configuration</DialogTitle>
         <DialogContent>
@@ -53,7 +56,7 @@ const ChartForm = ({
                 checked={isPieChartSelected}
                 onChange={(e) => setPieChartSelected(e.target.checked)}
                 inputProps={{
-                    'aria-label': 'Checkbox for Pie Chart',
+                  "aria-label": "Checkbox for Pie Chart",
                 }}
               />
             }
@@ -67,7 +70,7 @@ const ChartForm = ({
                 checked={isLineGraphSelected}
                 onChange={(e) => setLineGraphSelected(e.target.checked)}
                 inputProps={{
-                    'aria-label': 'Checkbox for Line Graph',
+                  "aria-label": "Checkbox for Line Graph",
                 }}
               />
             }
@@ -81,7 +84,7 @@ const ChartForm = ({
                 checked={isTableSelected}
                 onChange={(e) => setTableSelected(e.target.checked)}
                 inputProps={{
-                    'aria-label': 'Checkbox for Table',
+                  "aria-label": "Checkbox for Table",
                 }}
               />
             }
@@ -98,7 +101,7 @@ const ChartForm = ({
             fullWidth
             margin="normal"
             inputProps={{
-                'aria-label': 'Notes',
+              "aria-label": "Notes",
             }}
           />
         </DialogContent>

@@ -1,90 +1,51 @@
-import React, {useEffect} from 'react';
-import {useMemo} from 'react';
-import Chart from 'chart.js/auto';
+import React, { useEffect } from "react";
+import { useMemo } from "react";
+import Chart from "chart.js/auto";
+import { calculateJoinersAndLeavers } from "../static/helper";
 
 const LineGraph = ({ studentData, lineGraphRef }) => {
+  useMemo(
+    () =>
+      studentData.sort(
+        (a, b) => new Date(a.date_of_birth) - new Date(b.date_of_birth)
+      ),
+    [studentData]
+  );
 
-    useMemo(() => studentData.sort((a, b) => new Date(a.date_of_birth) - new Date(b.date_of_birth)), [studentData]);
-    console.log("studentData", studentData);
+  const { dates, joinersData, leaversData } = calculateJoinersAndLeavers(studentData);
 
-    const getLeaveDate = (joinDate) => {
-        const date = new Date(joinDate);
-        date.setFullYear(date.getFullYear() + Math.random()*10)
-        const year = date.toLocaleString('default', {year: 'numeric'});
-        const month = date.toLocaleString('default', {
-          month: '2-digit',
-        });
-        const day = date.toLocaleString('default', {day: '2-digit'});
-    
-        return `${year}-${month}-${day}`;
-
-    }
-
-    const calculateJoinersAndLeavers = () => {
-      const joiners = {};
-      const leavers = {};
-  
-      studentData.forEach((student) => {
-        const joinDate = student.date_of_birth;
-        const leaveDate = student.leave_date || getLeaveDate(student.date_of_birth);
-  
-        if (joinDate in joiners) {
-          joiners[joinDate]++;
-        } else {
-          joiners[joinDate] = 1;
-        }
-  
-        if (leaveDate && leaveDate in leavers) {
-          leavers[leaveDate]++;
-        } else if (leaveDate) {
-          leavers[leaveDate] = 1;
-        }
-      });
-  
-      const dates = [
-        ...new Set([...Object.keys(joiners), ...Object.keys(leavers)]),
-      ];
-  
-      const joinersData = dates.map((date) => joiners[date] || 0);
-      const leaversData = dates.map((date) => leavers[date] || 0);
-  
-      return { dates, joinersData, leaversData };
-    };
-  
-    const { dates, joinersData, leaversData } = calculateJoinersAndLeavers();
-  
-    const data = {
-      labels: dates,
-      datasets: [
-        {
-          label: "Joiners",
-          borderColor: "#36A2EB",
-          data: joinersData,
-        },
-        {
-          label: "Leavers",
-          borderColor: "#FFCE56",
-          data: leaversData,
-        },
-      ],
-    };
-
-    useEffect(() => {
-        const ctx = lineGraphRef?.current?.getContext('2d');
-    
-        new Chart(ctx, {
-          type: 'line',
-          data: data,
-        });
-      }, []);
-  
-    // return <Line data={data} />;
-    return <>
-    <div>
-     <canvas ref={lineGraphRef} width="400" height="400" />
-     {/* <button onClick={downloadChartImage}>Download Pie Chart</button>       */}
-   </div>
-    </>
+  const data = {
+    labels: dates,
+    datasets: [
+      {
+        label: "Joiners",
+        borderColor: "#36A2EB",
+        data: joinersData,
+      },
+      {
+        label: "Leavers",
+        borderColor: "#FFCE56",
+        data: leaversData,
+      },
+    ],
   };
 
-  export default LineGraph;
+  useEffect(() => {
+    const ctx = lineGraphRef?.current?.getContext("2d");
+
+    new Chart(ctx, {
+      type: "line",
+      data: data,
+    });
+  }, []);
+
+  return (
+    <>
+      <div>
+        <canvas ref={lineGraphRef} width="400" height="400" />
+      </div>
+    </>
+  );
+};
+
+export default LineGraph;
