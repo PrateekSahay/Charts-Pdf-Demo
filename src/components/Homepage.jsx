@@ -33,7 +33,7 @@ const HomePage = ({ studentData }) => {
   const lineGraphRef = useRef(null);
   const [formData, setFormData] = useState({
     isPieChartSelected: true,
-    isLineGraphSelected: false,
+    isLineGraphSelected: true,
     isTableSelected: true,
     notes: "",
   });
@@ -111,12 +111,12 @@ const HomePage = ({ studentData }) => {
         page={page}
         setPage={setPage}
       />      
-      <ChartForm 
+      {isDialogOpen && <ChartForm 
       formData={formData}
       updateFormData={updateFormData}
       isDialogOpen={isDialogOpen}
       setIsDialogOpen={setIsDialogOpen}      
-      />
+      />}
     </section>
   );
 };
