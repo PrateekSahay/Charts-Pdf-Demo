@@ -7,6 +7,7 @@ import {
   StyleSheet,
   View,
   Canvas,
+  Note,
 } from "@react-pdf/renderer";
 import { Font } from "@react-pdf/renderer";
 import PieChart from "./PieChart";
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PdfFile = ({ pieChartData, lineGraphData, tableData }) => {
+const PdfFile = ({ pieChartData, lineGraphData, tableData, notes }) => {
   const pageColors = ["#f6d186", "#f67280", "#c06c84"];
 
   const pages = [
@@ -78,13 +79,13 @@ const PdfFile = ({ pieChartData, lineGraphData, tableData }) => {
   return (
     <>
       <Document>
-        <Page>
+        {pieChartData && <Page>
             <Text>header</Text>
           <View>{pieChartData && <Image src={pieChartData} />}</View>
-        </Page>
-        <Page>
+        </Page>}
+        {lineGraphData && <Page>
           <View>{lineGraphData && <Image src={lineGraphData} />}</View>
-        </Page>
+        </Page>}
         {tableData &&
           tableData.map((data, index) => {
             return (
@@ -93,6 +94,10 @@ const PdfFile = ({ pieChartData, lineGraphData, tableData }) => {
               </Page>
             );
           })}
+          {notes && <Page>
+            <Text>{notes}</Text>
+            </Page>
+            }
         {pages.map((page, index) => {
           return (
             <Page

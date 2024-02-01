@@ -12,12 +12,13 @@ import {
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { saveAs } from "file-saver";
 import { pdf } from "@react-pdf/renderer";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import { toPng } from "html-to-image";
 import html2canvas from "html2canvas";
 import Button from "@mui/material/Button";
 import { saveChartAsImage } from "../static/helper";
 import PdfFile from "./PdfFile";
+import ChartForm from "./ChartForm";
 
 Chart.register(ArcElement);
 Chart.register(CategoryScale);
@@ -30,6 +31,26 @@ const HomePage = ({ studentData }) => {
   const pieChartRef = useRef(null);
   const tableRef = useRef(null);
   const lineGraphRef = useRef(null);
+  const [formData, setFormData] = useState({
+    isPieChartSelected: true,
+    isLineGraphSelected: false,
+    isTableSelected: true,
+    notes: "",
+  });
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const isFormDataUpdated = useRef(false);
+  console.log({formData});
+
+  const updateFormData = useCallback((data) => {
+    setFormData(curr => {
+        return {
+            ...curr,
+            ...data
+        }
+    });
+
+    isFormDataUpdated.current = true;
+  }, [isFormDataUpdated.current, setFormData]);
 
   const handleExportToPDF = async () => {
     let arr = [];
@@ -46,27 +67,39 @@ const HomePage = ({ studentData }) => {
   };
 
   const generatePdfDocument = async (documentData, fileName) => {
-    const pieChartData = await saveChartAsImage(pieChartRef.current);
-    const lineGraphData = await saveChartAsImage(lineGraphRef.current);
-    const tableData = await handleExportToPDF();
+    const pieChartData = formData?.isPieChartSelected ? await saveChartAsImage(pieChartRef.current) : null;
+    const lineGraphData = formData?.isLineGraphSelected ? await saveChartAsImage(lineGraphRef.current) : null;
+    const tableData = formData?.isTableSelected ? await handleExportToPDF() : null;
 
     const blob = await pdf(
       <PdfFile
         pieChartData={pieChartData}
         lineGraphData={lineGraphData}
         tableData={tableData}
+        notes={formData.notes}
       />
     ).toBlob();
     saveAs(blob, fileName);
   };
 
+  const onExtractPdfClick = () => {
+    setIsDialogOpen(prev => !prev);
+  }
+
+  useEffect(() => {
+    if (isFormDataUpdated.current) {
+        generatePdfDocument();
+        isFormDataUpdated.current = false;
+    }
+  }, [isFormDataUpdated.current])
+
   // add loader
 
   return (
-    <div className="homepage-container">
+    <section className="homepage-container">
         <div className="homepage-header">
             <h1>Student Information Dashboard</h1>
-            <Button variant="contained" color="primary" onClick={generatePdfDocument}>
+            <Button variant="contained" color="primary" onClick={onExtractPdfClick} aria-label="Genrate PDF">
               Generate PDF
             </Button>
       </div>
@@ -78,7 +111,13 @@ const HomePage = ({ studentData }) => {
         page={page}
         setPage={setPage}
       />      
-    </div>
+      <ChartForm 
+      formData={formData}
+      updateFormData={updateFormData}
+      isDialogOpen={isDialogOpen}
+      setIsDialogOpen={setIsDialogOpen}      
+      />
+    </section>
   );
 };
 
