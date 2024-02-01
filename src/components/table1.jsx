@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import _ from 'lodash';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,12 +8,16 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import Button from '@mui/material/Button';
 
 const StudentTable = ({ studentData }) => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [orderBy, setOrderBy] = useState('name');
   const [order, setOrder] = useState('asc');
+  const tableRef = useRef(null);
 
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -72,8 +76,28 @@ const StudentTable = ({ studentData }) => {
     setPage(0);
   };
 
+  const handleExportToPDF = async () => {
+    const pdf = new jsPDF();
+
+    // Loop through the table's pages and create a new page for each
+    for (let i = 0; i < Math.ceil(studentData.length / rowsPerPage); i++) {
+      setPage(i);
+      const canvas = await html2canvas(tableRef.current);
+      const imgData = canvas.toDataURL('image/png');
+
+      if (i > 0) {
+        pdf.addPage();
+      }
+
+      pdf.addImage(imgData, 'PNG', 0, 0);
+    }
+
+    pdf.save('student_table.pdf');
+  };
+
   return (
-    <TableContainer component={Paper}>
+    <>
+    <TableContainer component={Paper}  ref={tableRef}>
       <Table>
         <TableHead>
           <TableRow>
@@ -134,6 +158,10 @@ const StudentTable = ({ studentData }) => {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </TableContainer>
+    <Button variant="contained" color="primary" onClick={handleExportToPDF}>
+        Export to PDF
+      </Button>
+    </>
   );
 };
 
