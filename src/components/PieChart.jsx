@@ -6,9 +6,6 @@ import { toPng } from 'html-to-image';
 
 const PieChart = ({ studentData, chartRef }) => {
 
-    // console.log({chartRef});
-    // const chartRef = useRef(null);
-
     const calculateGradeDistribution = () => {
       const gradeCounts = {
         A: 0,
@@ -68,27 +65,22 @@ const PieChart = ({ studentData, chartRef }) => {
         });
       }, []);
 
-    //   const saveChartAsImage = async () => {
+    //   const downloadChartImage = async () => {
     //     const chartImage = await toPng(chartRef.current);
-    //     return chartImage;
-    //   };
-
-      const downloadChartImage = async () => {
-        const chartImage = await toPng(chartRef.current);
         
-        // Create an "a" element to trigger the download
-        const link = document.createElement('a');
-        link.href = chartImage;
-        link.download = 'pie_chart.png';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      };
+    //     // Create an "a" element to trigger the download
+    //     const link = document.createElement('a');
+    //     link.href = chartImage;
+    //     link.download = 'pie_chart.png';
+    //     document.body.appendChild(link);
+    //     link.click();
+    //     document.body.removeChild(link);
+    //   };
   
     return <>
      <div>
       <canvas ref={chartRef} width="400" height="400" />
-      <button onClick={downloadChartImage}>Download Pie Chart</button>      
+      {/* <button onClick={downloadChartImage}>Download Pie Chart</button>       */}
     </div>
      </>
   };
