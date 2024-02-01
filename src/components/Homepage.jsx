@@ -68,11 +68,7 @@ const generatePdfDocument = async (documentData,fileName) => {
         <h1>Student Information Dashboard</h1>
          <PieChart studentData={studentData} pieChartRef={pieChartRef}/>
          <LineGraph studentData={studentData} lineGraphRef={lineGraphRef} /> 
-        <StudentTable1 studentData={studentData} tableRef={tableRef} page={page} setPage={setPage} />        
-        {/* <PDFFile /> */}
-        {/* <PDFDownloadLink document={<PDFFile />} filename="FORM">
-      {({loading}) => (loading ? <button>Loading Document...</button> : <button>Download</button> )}
-      </PDFDownloadLink> */}      
+        <StudentTable1 studentData={studentData} tableRef={tableRef} page={page} setPage={setPage} />            
       <Button variant="contained" color="primary" onClick={generatePdfDocument}>
         Generate PDF
       </Button>

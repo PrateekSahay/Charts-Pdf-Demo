@@ -1,0 +1,41 @@
+/* StudentInfo.css */
+.student-info-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    animation: fadeIn 0.5s ease-in-out;
+  
+    background-color: bisque;
+    background-size: cover;
+    color: #333;
+  }
+  
+  .property-container {
+    margin-bottom: 10px;
+  }
+  
+  .label {
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  
+  .grades-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .grade {
+    margin-right: 10px;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
