@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 100,
   },
   header: {
-    fontSize: 12,
+    fontSize: 24,
     marginBottom: 20,
     textAlign: "center",
     color: "grey",
@@ -80,42 +80,27 @@ const PdfFile = ({ pieChartData, lineGraphData, tableData, notes }) => {
     <>
       <Document>
         {pieChartData && <Page>
-            <Text>header</Text>
-          <View>{pieChartData && <Image src={pieChartData} />}</View>
+            <Text style={styles.header}>Pie Chart</Text>
+          <View><Image src={pieChartData} /></View>
         </Page>}
         {lineGraphData && <Page>
-          <View>{lineGraphData && <Image src={lineGraphData} />}</View>
+            <Text style={styles.header}>Line Graph</Text>
+          <View><Image src={lineGraphData} /></View>
         </Page>}
         {tableData &&
           tableData.map((data, index) => {
             return (
               <Page key={index}>
+                <Text style={styles.header}>Table Data</Text>
                 <Image key={index} src={data} />
               </Page>
             );
           })}
           {notes && <Page>
+            <Text style={styles.header}>Notes</Text>
             <Text>{notes}</Text>
             </Page>
             }
-        {pages.map((page, index) => {
-          return (
-            <Page
-              key={index}
-              style={{ ...styles.body, backgroundColor: pageColors[index] }}
-            >
-              <Text style={styles.header} fixed></Text>
-              <Image style={styles.image} src={page.image} />
-              <Text style={styles.text}>{page.text}</Text>
-              <Text
-                style={styles.pageNumber}
-                render={({ pageNumber, totalPages }) =>
-                  `${pageNumber} / ${totalPages}`
-                }
-              />
-            </Page>
-          );
-        })}
       </Document>
     </>
   );
