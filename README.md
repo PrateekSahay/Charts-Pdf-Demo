@@ -41,5 +41,7 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 
 # TODO
 Code Refactoring
+
 Unit Testing
+
 TODO points
