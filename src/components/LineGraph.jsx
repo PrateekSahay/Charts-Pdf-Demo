@@ -1,13 +1,14 @@
 import { Line } from "react-chartjs-2";
+import {useMemo} from 'react';
 
 const LineGraph = ({ studentData }) => {
 
-    studentData.sort((a, b) => new Date(a.date_of_birth) - new Date(b.date_of_birth));
+    useMemo(() => studentData.sort((a, b) => new Date(a.date_of_birth) - new Date(b.date_of_birth)), [studentData]);
     console.log("studentData", studentData);
 
     const getLeaveDate = (joinDate) => {
         const date = new Date(joinDate);
-        date.setFullYear(date.getFullYear() + 2)
+        date.setFullYear(date.getFullYear() + Math.random()*10)
         const year = date.toLocaleString('default', {year: 'numeric'});
         const month = date.toLocaleString('default', {
           month: '2-digit',

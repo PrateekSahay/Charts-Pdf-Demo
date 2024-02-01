@@ -12,12 +12,12 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import Button from '@mui/material/Button';
 
-const StudentTable = ({ studentData }) => {
-  const [page, setPage] = useState(0);
+const StudentTable = ({ studentData, tableRef, page, setPage }) => {
+//   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [orderBy, setOrderBy] = useState('name');
   const [order, setOrder] = useState('asc');
-  const tableRef = useRef(null);
+//   const tableRef = useRef(null);
 
   const handleRequestSort = (property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -76,24 +76,24 @@ const StudentTable = ({ studentData }) => {
     setPage(0);
   };
 
-  const handleExportToPDF = async () => {
-    const pdf = new jsPDF();
+//   const handleExportToPDF = async () => {
+//     const pdf = new jsPDF();
 
-    // Loop through the table's pages and create a new page for each
-    for (let i = 0; i < Math.ceil(studentData.length / rowsPerPage); i++) {
-      setPage(i);
-      const canvas = await html2canvas(tableRef.current);
-      const imgData = canvas.toDataURL('image/png');
+//     // Loop through the table's pages and create a new page for each
+//     for (let i = 0; i < Math.ceil(studentData.length / rowsPerPage); i++) {
+//       setPage(i);
+//       const canvas = await html2canvas(tableRef.current);
+//       const imgData = canvas.toDataURL('image/png');
 
-      if (i > 0) {
-        pdf.addPage();
-      }
+//       if (i > 0) {
+//         pdf.addPage();
+//       }
 
-      pdf.addImage(imgData, 'PNG', 0, 0);
-    }
+//       pdf.addImage(imgData, 'PNG', 0, 0);
+//     }
 
-    pdf.save('student_table.pdf');
-  };
+//     pdf.save('student_table.pdf');
+//   };
 
   return (
     <>
@@ -158,9 +158,9 @@ const StudentTable = ({ studentData }) => {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </TableContainer>
-    <Button variant="contained" color="primary" onClick={handleExportToPDF}>
+    {/* <Button variant="contained" color="primary" onClick={handleExportToPDF}>
         Export to PDF
-      </Button>
+      </Button> */}
     </>
   );
 };

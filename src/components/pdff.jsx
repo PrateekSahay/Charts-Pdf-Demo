@@ -1,10 +1,11 @@
-import React from "react";
-import { Page, Text, Image, Document, StyleSheet, View } from "@react-pdf/renderer";
+import React, { useEffect, useRef } from "react";
+import { Page, Text, Image, Document, StyleSheet, View, Canvas } from "@react-pdf/renderer";
 import LebronStretch from "./lebron_transparent.png";
 import {Font} from '@react-pdf/renderer';
 import PieChart from "./PieChart";
 import studentData from "../static/data";
 import { renderToStaticMarkup } from 'react-dom/server';
+import { toPng } from 'html-to-image';
 
 
 Font.register({
@@ -53,28 +54,34 @@ const styles = StyleSheet.create({
   },
 });
 
-const PDFFile = () => {
+const PDFFile = ({data, tableData}) => {
 
   const pageColors = ['#f6d186', '#f67280', '#c06c84'];
 
-//   const pages = [
-//     {text: 'First page content goes here...', image: LebronStretch },
-//     {text: 'Second page content goes here...', image: 'https://www.si.com/.image/ar_4:3%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTcwMzExMzEwNTc0MTAxODM5/lebron-dunk.jpg' },
-//     {text: 'Third page content goes here...', image: 'https://s.yimg.com/ny/api/res/1.2/Aj5UoHHKnNOpdwE6Zz9GIQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MA--/https://s.yimg.com/os/creatr-uploaded-images/2023-01/b02a71d0-a774-11ed-bf7f-08714e8ad300' },
-//   ]
-
   const pages = [
     {text: 'First page content goes here...', image: LebronStretch },
-    {text: renderToStaticMarkup(<PieChart studentData={studentData} />), image: 'https://www.si.com/.image/ar_4:3%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTcwMzExMzEwNTc0MTAxODM5/lebron-dunk.jpg' },
+    {text: 'Second page content goes here...', image: 'https://www.si.com/.image/ar_4:3%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTcwMzExMzEwNTc0MTAxODM5/lebron-dunk.jpg' },
     {text: 'Third page content goes here...', image: 'https://s.yimg.com/ny/api/res/1.2/Aj5UoHHKnNOpdwE6Zz9GIQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MA--/https://s.yimg.com/os/creatr-uploaded-images/2023-01/b02a71d0-a774-11ed-bf7f-08714e8ad300' },
   ]
 
+  
   return (
     <>
     <Document>
-        {/* <Page>        
-        <PieChart studentData={studentData} />
-        </Page> */}
+        <Page>        
+        <View>
+        {data && <Image src={data} />}
+            {/* <img src={data}></img> */}
+        {/* </Image> */}        
+      </View>
+        </Page>
+        {tableData && tableData.map((data, index) => {
+            return (
+                <Page>
+                <Image key={index} src={data} />
+                </Page>
+            )
+        })}
       {pages.map((page, index) => {
         return (
           <Page key={index} style={{...styles.body, backgroundColor: pageColors[index]}}>
@@ -94,7 +101,6 @@ const PDFFile = () => {
       })}
 
     </Document>
-    {/* <div>asd asd mas d</div> */}
     </>
   );
 };
