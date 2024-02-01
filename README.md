@@ -45,3 +45,13 @@ Code Refactoring
 Unit Testing
 
 TODO points
+
+# Build Issue.
+If facing build issue  "Can't resolve 'fs'". Then add the below to the webpack.config.js file (which is located in node_modules/react-scripts/config).
+Will provide fix for this soon
+
+      fallback: {
+        "fs": false,
+        "os": false,
+        "path": false
+      }
