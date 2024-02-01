@@ -87,7 +87,7 @@ const PDFFile = ({ pieChartData, lineGraphData, tableData }) => {
         {tableData &&
           tableData.map((data, index) => {
             return (
-              <Page>
+              <Page key={index}>
                 <Image key={index} src={data} />
               </Page>
             );
