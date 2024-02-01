@@ -1,10 +1,10 @@
-import React, {useRef, useEffect} from "react";
+import React, { useEffect} from "react";
 import { Pie } from "react-chartjs-2";
 import Chart from 'chart.js/auto';
 import { toPng } from 'html-to-image';
 
 
-const PieChart = ({ studentData, chartRef }) => {
+const PieChart = ({ studentData, pieChartRef }) => {
 
     const calculateGradeDistribution = () => {
       const gradeCounts = {
@@ -56,11 +56,10 @@ const PieChart = ({ studentData, chartRef }) => {
     };
 
     useEffect(() => {
-        console.log({chartRef});
-        const ctx = chartRef?.current?.getContext('2d');
+        const ctx = pieChartRef?.current?.getContext('2d');
     
         new Chart(ctx, {
-          type: 'doughnut',
+          type: 'pie',
           data: data,
         });
       }, []);
@@ -79,7 +78,7 @@ const PieChart = ({ studentData, chartRef }) => {
   
     return <>
      <div>
-      <canvas ref={chartRef} width="400" height="400" />
+      <canvas ref={pieChartRef} width="400" height="400" />
       {/* <button onClick={downloadChartImage}>Download Pie Chart</button>       */}
     </div>
      </>

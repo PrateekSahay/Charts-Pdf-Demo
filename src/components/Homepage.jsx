@@ -10,6 +10,7 @@ import { pdf } from '@react-pdf/renderer';
 import { useRef, useEffect, useState } from "react";
 import { toPng } from 'html-to-image';
 import html2canvas from 'html2canvas';
+import Button from '@mui/material/Button';
 
 Chart.register(ArcElement);
 Chart.register(CategoryScale);
@@ -20,20 +21,14 @@ Chart.register(LineElement);
 
 const HomePage = ({ studentData }) => {
 
-    const [data, setData] = useState(null);
-    const [page, setPage] = useState(0);
-
-    console.log({page});
-    
-
-    const chartRef = useRef(null);
+    const [page, setPage] = useState(0);    
+    const pieChartRef = useRef(null);
     const tableRef = useRef(null);
+    const lineGraphRef = useRef(null);
 
-    const saveChartAsImage = async () => {
-        const chartImage = await toPng(chartRef.current);
-        console.log({chartImage});
-        setData(chartImage);
-        return chartImage;
+    const saveChartAsImage = async (reference) => {
+        const pieChartImage = await toPng(reference);
+        return pieChartImage;
       };  
 
       const handleExportToPDF = async () => {        
@@ -52,15 +47,15 @@ const HomePage = ({ studentData }) => {
 
 
 const generatePdfDocument = async (documentData,fileName) => {
-    const m = await saveChartAsImage()
-    // console.log({m} )
-    // setData(m);
-    const d = await handleExportToPDF();
+    const pieChartData = await saveChartAsImage(pieChartRef.current);
+    const lineGraphData = await saveChartAsImage(lineGraphRef.current);
+    const tableData = await handleExportToPDF();
 
     const blob = await pdf((
         <PDFFile 
-        data={m}    
-        tableData={d}       
+        pieChartData={pieChartData}    
+        lineGraphData={lineGraphData}
+        tableData={tableData}       
         />
     )).toBlob();
     saveAs(blob, fileName);
@@ -70,20 +65,17 @@ const generatePdfDocument = async (documentData,fileName) => {
     
     return (
       <div>
-        {/* {data && <img src={data} />} */}
-        {/* <button onClick={saveChartAsImage}>dadasd</button> */}
         <h1>Student Information Dashboard</h1>
-         <PieChart studentData={studentData} chartRef={chartRef}/>
-         <LineGraph studentData={studentData} /> 
+         <PieChart studentData={studentData} pieChartRef={pieChartRef}/>
+         <LineGraph studentData={studentData} lineGraphRef={lineGraphRef} /> 
         <StudentTable1 studentData={studentData} tableRef={tableRef} page={page} setPage={setPage} />        
         {/* <PDFFile /> */}
         {/* <PDFDownloadLink document={<PDFFile />} filename="FORM">
       {({loading}) => (loading ? <button>Loading Document...</button> : <button>Download</button> )}
-      </PDFDownloadLink> */}
-      <button onClick={generatePdfDocument}>asd</button>
-      {/* <div style={{display: 'none'}}>
-
-      </div> */}
+      </PDFDownloadLink> */}      
+      <Button variant="contained" color="primary" onClick={generatePdfDocument}>
+        Generate PDF
+      </Button>
       </div>
     );
 };

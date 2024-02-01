@@ -1,7 +1,8 @@
-import { Line } from "react-chartjs-2";
+import React, {useEffect} from 'react';
 import {useMemo} from 'react';
+import Chart from 'chart.js/auto';
 
-const LineGraph = ({ studentData }) => {
+const LineGraph = ({ studentData, lineGraphRef }) => {
 
     useMemo(() => studentData.sort((a, b) => new Date(a.date_of_birth) - new Date(b.date_of_birth)), [studentData]);
     console.log("studentData", studentData);
@@ -67,8 +68,23 @@ const LineGraph = ({ studentData }) => {
         },
       ],
     };
+
+    useEffect(() => {
+        const ctx = lineGraphRef?.current?.getContext('2d');
+    
+        new Chart(ctx, {
+          type: 'line',
+          data: data,
+        });
+      }, []);
   
-    return <Line data={data} />;
+    // return <Line data={data} />;
+    return <>
+    <div>
+     <canvas ref={lineGraphRef} width="400" height="400" />
+     {/* <button onClick={downloadChartImage}>Download Pie Chart</button>       */}
+   </div>
+    </>
   };
 
   export default LineGraph;
