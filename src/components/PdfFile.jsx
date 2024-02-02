@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     paddingBottom: 65,
     paddingHorizontal: 35,
     backgroundColor: "beige",
+    // fontSize: 24
   },
   header: {
     fontSize: 24,
@@ -34,6 +35,9 @@ const styles = StyleSheet.create({
     marginTop: 100,
     fontSize: 50,
   },
+  image: {
+    height: '75vh',
+  }
 });
 
 const PdfFile = ({ pieChartData, lineGraphData, tableData, notes }) => {
@@ -69,7 +73,7 @@ const PdfFile = ({ pieChartData, lineGraphData, tableData, notes }) => {
               <Page key={index}>
                 <View style={styles.body}>
                   <Text style={styles.header}>Table Data</Text>
-                  <Image key={index} src={data} />
+                  <Image style={styles.image} key={index} src={data} />
                 </View>
               </Page>
             );
