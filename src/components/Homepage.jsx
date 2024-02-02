@@ -108,8 +108,6 @@ const HomePage = ({ studentData }) => {
     })();
   }, [isFormDataUpdated.current]);
 
-  //TODO: Add loader
-
   return (
     <section className="homepage-container">
       {showLoader && <Loader open={showLoader} />}
