@@ -19,6 +19,7 @@ import Button from "@mui/material/Button";
 import { saveChartAsImage } from "../static/helper";
 import PdfFile from "./PdfFile";
 import ChartForm from "./ChartForm";
+import Loader from "./Loader";
 
 Chart.register(ArcElement);
 Chart.register(CategoryScale);
@@ -28,6 +29,7 @@ Chart.register(LineElement);
 
 const HomePage = ({ studentData }) => {
   const [page, setPage] = useState(0);
+  const [showLoader, setShowLoader] = useState(false);
   const pieChartRef = useRef(null);
   const tableRef = useRef(null);
   const lineGraphRef = useRef(null);
@@ -96,16 +98,21 @@ const HomePage = ({ studentData }) => {
   };
 
   useEffect(() => {
-    if (isFormDataUpdated.current) {
-      generatePdfDocument();
-      isFormDataUpdated.current = false;
-    }
+    (async () => {
+      if (isFormDataUpdated.current) {
+        setShowLoader(true);
+        await generatePdfDocument();
+        isFormDataUpdated.current = false;
+        setShowLoader(false);
+      }
+    })();
   }, [isFormDataUpdated.current]);
 
   //TODO: Add loader
 
   return (
     <section className="homepage-container">
+      {showLoader && <Loader open={showLoader} />}
       <div className="homepage-header">
         <h1>Student Information Dashboard</h1>
         <Button
