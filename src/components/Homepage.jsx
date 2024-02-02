@@ -20,6 +20,7 @@ import { saveChartAsImage } from "../static/helper";
 import PdfFile from "./PdfFile";
 import ChartForm from "./ChartForm";
 import Loader from "./Loader";
+import { rowsPerPage } from "../static/constants";
 
 Chart.register(ArcElement);
 Chart.register(CategoryScale);
@@ -57,17 +58,19 @@ const HomePage = ({ studentData }) => {
     [isFormDataUpdated.current, setFormData]
   );
 
-  const handleExportToPDF = async () => {
+  const saveTableAsImage = async () => {
     let arr = [];
-    for (let i = 0; i < Math.ceil(studentData.length / 10); i++) {
+    for (let i = 0; i < Math.ceil(studentData.length / rowsPerPage); i++) {
       setPage(i);
       const canvas = await html2canvas(tableRef.current);
       const imgData = canvas.toDataURL("image/png");
-
       if (i > 0) {
         arr.push(imgData);
       }
     }
+    const canvas = await html2canvas(tableRef.current);
+    const imgData = canvas.toDataURL("image/png");
+    arr.push(imgData)
     return Promise.all(arr);
   };
 
@@ -79,7 +82,7 @@ const HomePage = ({ studentData }) => {
       ? await saveChartAsImage(lineGraphRef.current)
       : null;
     const tableData = formData?.isTableSelected
-      ? await handleExportToPDF()
+      ? await saveTableAsImage()
       : null;
 
     const blob = await pdf(

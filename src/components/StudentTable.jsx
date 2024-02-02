@@ -9,10 +9,10 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import { useNavigate } from "react-router-dom";
+import { rowsPerPage } from "../static/constants";
 
 const StudentTable = ({ studentData, tableRef, page, setPage }) => {
   const navigate = useNavigate();
-  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [orderBy, setOrderBy] = useState("name");
   const [order, setOrder] = useState("asc");
 
@@ -70,10 +70,6 @@ const StudentTable = ({ studentData, tableRef, page, setPage }) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
 
   const onNameClick = (student) => {
     navigate(`/student/${student.name}`, { state: student });
@@ -167,13 +163,12 @@ const StudentTable = ({ studentData, tableRef, page, setPage }) => {
           </TableBody>
         </Table>
         <TablePagination
-          rowsPerPageOptions={[10, 25, 50, 75, 100]}
+          rowsPerPageOptions={[]}
           component="div"
           count={studentData.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </TableContainer>
     </>
