@@ -1,9 +1,9 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import PieChart from '../PieChart';
+import LineGraph from '../LineGraph';
 import React, { useRef } from 'react';
 
 jest.mock('react-chartjs-2', () => ({
-  Pie: () => <canvas />, // return a canvas element
+  Line: () => <canvas />, // return a canvas element
 }));
 
 // Mock canvas context
@@ -17,19 +17,19 @@ const studentData = [
   { name: 'Jane', age: 22, date_of_birth: '1999-01-01', city: 'Los Angeles', grades: { Math: 92, Science: 88, English: 90, History: 94, Programming: 96 } },
 ];
 
-describe('PieChart', () => {
+describe('LineGraph', () => {
   it('renders without crashing', () => {
     const TestComponent = () => {
-      const pieChartRef = useRef(null);
-      return <PieChart studentData={studentData} pieChartRef={pieChartRef} />;
+      const lineGraphRef = useRef(null);
+      return <LineGraph studentData={studentData} lineGraphRef={lineGraphRef} />;
     };
     render(<TestComponent />);
   });
 
   it('renders a canvas and creates a chart', async () => {
     const TestComponent = () => {
-      const pieChartRef = useRef(null);
-      return <PieChart studentData={studentData} pieChartRef={pieChartRef} />;
+      const lineGraphRef = useRef(null);
+      return <LineGraph studentData={studentData} lineGraphRef={lineGraphRef} />;
     };
     const { container } = render(<TestComponent />);
     console.log({container});
