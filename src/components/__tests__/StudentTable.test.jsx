@@ -1,5 +1,3 @@
-// FILEPATH: /Users/prateekkumarsahay/Documents/Personal Code/Temp folder/Charts-Pdf-Demo/src/components/__tests__/StudentTable.test.jsx
-
 import { render, fireEvent, within } from '@testing-library/react';
 import StudentTable from '../StudentTable';
 
